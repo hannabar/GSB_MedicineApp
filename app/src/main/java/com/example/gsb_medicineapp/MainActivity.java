@@ -55,7 +55,9 @@ import androidx.appcompat.app.AppCompatActivity;
          String forme_pharmaceutique = forme.getText().toString().trim();
          String titulaires = titulaire.getText().toString().trim();
          String denomination_substance = substance.getText().toString().trim();
-     }
+     // ici faire appel à la fonction search medicament en mettant en paramètres les saisies utilisateurs récupérées.
+
+          }
 
      private void cacherClavier() {
          // Obtenez le gestionnaire de fenêtre
