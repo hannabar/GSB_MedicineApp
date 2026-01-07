@@ -5,10 +5,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.List;
 
  public class MainActivity extends AppCompatActivity {
     private static final String PREF_NAME = "userPrefs";
@@ -16,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
     private EditText denomination,forme,titulaire,substance;
     private Button btnSearch;
     private DatabaseHelper dbHelper;
+    private Spinner spinnerVoieAdmin;
 
      @Override
      protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +37,9 @@ import androidx.appcompat.app.AppCompatActivity;
          titulaire = findViewById(R.id.edit_text_titulaires);
          substance = findViewById(R.id.edit_text_substance);
          btnSearch=findViewById(R.id.btn_rechercher);
-
+         spinnerVoieAdmin=findViewById(R.id.voieAdminSpinner);
+         dbHelper = new DatabaseHelper(this); //initialisation de databaseHelper
+         setupVoieAdminSpinner();
          btnSearch.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
@@ -40,7 +47,7 @@ import androidx.appcompat.app.AppCompatActivity;
                  cacherClavier();
              }
          });
-         dbHelper = new DatabaseHelper(this);
+
      }
 
 
@@ -55,8 +62,8 @@ import androidx.appcompat.app.AppCompatActivity;
          String forme_pharmaceutique = forme.getText().toString().trim();
          String titulaires = titulaire.getText().toString().trim();
          String denomination_substance = substance.getText().toString().trim();
+         String voie_admin = spinnerVoieAdmin.getSelectedItem().toString();
      // ici faire appel à la fonction search medicament en mettant en paramètres les saisies utilisateurs récupérées.
-
           }
 
      private void cacherClavier() {
@@ -72,5 +79,10 @@ import androidx.appcompat.app.AppCompatActivity;
              imm.hideSoftInputFromWindow(vueCourante.getWindowToken(), 0);
          }
      }
-
+     private void setupVoieAdminSpinner(){
+         List<String> voieAdminList= dbHelper.getVoieAdministration();
+         ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,voieAdminList);
+         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+         spinnerVoieAdmin.setAdapter(spinnerAdapter);
+     }
  }

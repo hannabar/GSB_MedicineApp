@@ -44,8 +44,10 @@ android:orientation="vertical">
     android:hint="Dénomination_substance" />
 
 <Spinner
+    android:id="@+id/voieAdminSpinner"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"/>
+
 
 <Button
     android:layout_width="match_parent"
