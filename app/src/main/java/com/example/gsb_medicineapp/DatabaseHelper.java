@@ -162,6 +162,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "Code_CIS IN (" + SQLSubstance +")" +
                 finSQL;
         Cursor cursor = db.rawQuery(query, selectionArgs.toArray(new String[0]));
+        if (cursor.moveToFirst()){
+            do {
+                int codeCIS= cursor.getInt(cursor.getColumnIndex("Code_CIS"));
+                String denominationMedicament = cursor.getString(cursor.getColumnIndex("denomination_du_medicament"));
+                String formePharmaceutique = cursor.getString(cursor.getColumnIndex("forme_pharmaceutique"));
+                String voies_administration = cursor.getString(cursor.getColumnIndex("Voies_dadministration"));
+                String titulaire_medicament = cursor.getString(cursor.getColumnIndex("titulairesMedicament"));
+                String statut_administratif = cursor.getString(cursor.getColumnIndex("Statut_administratif_de_IAMM"));
+
+
+                Medicament medicament = new Medicament();
+                medicament.setCodeCIS(codeCIS);
+                medicament.setDenomination(denominationMedicament);
+                medicament.setFormePharmaceutique(formePharmaceutique);
+                medicament.setVoiesAdmin(voies_administration);
+                medicament.setTitulaires(titulaire_medicament);
+                medicament.setStatutAdministratif(statut_administratif);
+
+                medicamentList.add(medicament);
+            }
+            while (cursor.moveToNext());
+        } else {
+            Toast.makeText(mycontext, "Aucun résultat", Toast.LENGTH_LONG).show();
+        }
+        cursor.close();
+        db.close();
+
 
         return medicamentList;
         }
