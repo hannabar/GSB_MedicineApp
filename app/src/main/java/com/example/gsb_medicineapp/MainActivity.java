@@ -63,7 +63,7 @@ import java.util.List;
          String titulaires = titulaire.getText().toString().trim();
          String denomination_substance = substance.getText().toString().trim();
          String voie_admin = spinnerVoieAdmin.getSelectedItem().toString();
-         List<Medicament>searchResults= dbHelper.searchMedicaments(denomination_du_medicament,forme_pharmaceutique,titulaires,denomination_substance,voie_admin);
+         List<Medicament> searchResults= dbHelper.searchMedicaments(denomination_du_medicament,forme_pharmaceutique,titulaires,denomination_substance,voie_admin);
      // ici faire appel à la fonction search medicament en mettant en paramètres les saisies utilisateurs récupérées.
           }
 

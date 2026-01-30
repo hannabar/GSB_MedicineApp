@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Code CIS:"
+        android:textStyle="bold"
+        android:id="@+id/code_cis"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Dénomination:"
+        android:textStyle="bold"
+        android:id="@+id/denomination"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Forme Pharmaceutique:"
+        android:textStyle="bold"
+        android:id="@+id/forme_pharma"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Voie d'administration:"
+        android:textStyle="bold"
+        android:id="@+id/voie_admin"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Titulaire:"
+        android:textStyle="bold"
+        android:id="@+id/titulaire"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Statut Administratifs:"
+        android:textStyle="bold"
+        android:id="@+id/statut_admin"/>
+
+
+</LinearLayout>
