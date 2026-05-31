@@ -1,6 +1,7 @@
  package com.example.gsb_medicineapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -26,12 +27,12 @@ import java.util.List;
      protected void onCreate(Bundle savedInstanceState) {
          super.onCreate(savedInstanceState);
          setContentView(R.layout.activity_main);
-//         if (!isuserAuthentificated()){
-//             Intent authIntent = new Intent(this, Authentification.class);
-//             startActivity(authIntent);
-//             finish();
-//
-//         }
+
+        if (!isuserAuthentificated()){
+            Intent authIntent = new Intent(this, Authentification.class);
+             startActivity(authIntent); //redirection vers la page de connexion
+           finish();
+        }
          denomination = findViewById(R.id.edit_text_denomination_du_medicament);
          forme = findViewById(R.id.edit_text_forme_pharmaceutique);
          titulaire = findViewById(R.id.edit_text_titulaires);
@@ -55,7 +56,7 @@ import java.util.List;
          SharedPreferences preferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
          String userStatus = preferences.getString(KEY_USER_STATUS,"");
          return "authentification=OK".equals(userStatus);
-     }
+     } //retourne vrai si l'user est connecté
 
      private void performSearch() {
          String denomination_du_medicament = denomination.getText().toString().trim();
