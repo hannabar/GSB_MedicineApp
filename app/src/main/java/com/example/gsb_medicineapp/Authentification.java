@@ -22,7 +22,7 @@ public class Authentification extends AppCompatActivity {
     private LinearLayout layoutCle;
     String myRandomKey;
 
-    private static final String PREF_NAME = "UserPrefs"; //fichier installé en local pour vérifier si le user est connecté
+    private static final String PREF_NAME = "userPrefs"; //fichier installé en local pour vérifier si le user est connecté
     private static final String KEY_USER_STATUS = "userStatus"; //statut de connexion du visiteur
     private static final String SECURETOKEN = "Euroforma"; //token permettant la connexion  sécurisée
 

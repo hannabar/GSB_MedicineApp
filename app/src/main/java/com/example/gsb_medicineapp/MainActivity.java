@@ -87,4 +87,19 @@ import java.util.List;
          spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
          spinnerVoieAdmin.setAdapter(spinnerAdapter);
      }
- }
+
+     public void setUserStatus(String status){
+         SharedPreferences preferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+         SharedPreferences.Editor editor = preferences.edit();
+         editor.putString(KEY_USER_STATUS,status);
+         editor.apply();
+     }
+
+     public void deconnexion(View v) {
+         setUserStatus("authentification=KO");
+         Intent authIntent = new Intent(this, Authentification.class);
+         startActivity(authIntent);
+         finish();
+     }
+
+     }

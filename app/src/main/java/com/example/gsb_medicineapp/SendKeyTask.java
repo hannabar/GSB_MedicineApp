@@ -26,7 +26,7 @@ public class SendKeyTask extends AsyncTask<String, Void, String> {
         String secureKey = params[1];
         String token = params[2];
 
-        String urlString = "http://auth.euroforma.site/authent.php?codeV=" + codeV + "&secureKey=" + secureKey + "&Token=" + token;
+        String urlString = "https://auth.euroforma.site/authent.php?codeV=" + codeV + "&secureKey=" + secureKey + "&Token=" + token;
         Log.d("TAG","URL:"+urlString);
         try {
             URL url = new URL(urlString);
