@@ -141,19 +141,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     // fonction permettant de lancer la recherche de médicaments selon les critères
     public List<Medicament> searchMedicaments(String denomination_du_medicament,String forme_pharmaceutique,String titulaires , String denomination_substance,String voie_admin ){
-         List<Medicament> medicamentList = new ArrayList<>();
-         List<String> selectionArgs = new ArrayList<>();
-         SQLiteDatabase db = this.getReadableDatabase();
-         selectionArgs.add("%" + denomination_du_medicament + "%");
-         selectionArgs.add("%" + forme_pharmaceutique + "%");
-         selectionArgs.add("%" + titulaires + "%");
-         selectionArgs.add("%" + removeAccents(denomination_substance) + "%");
-         String finSQL = "";
+        List<Medicament> medicamentList = new ArrayList<>();
+        List<String> selectionArgs = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        selectionArgs.add("%" + denomination_du_medicament + "%");
+        selectionArgs.add("%" + forme_pharmaceutique + "%");
+        selectionArgs.add("%" + titulaires + "%");
+        selectionArgs.add("%" + removeAccents(denomination_substance) + "%");
+        String finSQL = "";
 
-         if (!voie_admin.equals(PREMIERE_VOIE)){
-             finSQL = "AND voie_admin LIKE ? ";
-             selectionArgs.add(voie_admin);
-         }
+        if (!voie_admin.equals(PREMIERE_VOIE)){
+            finSQL = "AND Voies_dadministration LIKE ? ";
+            selectionArgs.add(voie_admin);
+        }
         String SQLSubstance = "SELECT CODE_CIS FROM CIS_COMPO_bdpm WHERE replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(upper(Denomination_substance), 'Â','A'),'Ä','A'),'À','A'),'É','E'),'Á','A'),'Ï','I'), 'Ê','E'),'È','E'),'Ô','O'),'Ü','U'), 'Ç','C' ) LIKE ?" ;
         String query = "SELECT * , (select count(*) from CIS_COMPO_bdpm c where c.Code_CIS = m.Code_CIS) AS nb_molecule FROM CIS_bdpm m WHERE " +
                 "denomination_du_medicament LIKE ? AND " +
@@ -164,12 +164,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(query, selectionArgs.toArray(new String[0]));
         if (cursor.moveToFirst()){
             do {
-                int codeCIS= cursor.getInt(cursor.getColumnIndex("Code_CIS"));
-                String denominationMedicament = cursor.getString(cursor.getColumnIndex("denomination_du_medicament"));
-                String formePharmaceutique = cursor.getString(cursor.getColumnIndex("forme_pharmaceutique"));
-                String voies_administration = cursor.getString(cursor.getColumnIndex("Voies_dadministration"));
-                String titulaire_medicament = cursor.getString(cursor.getColumnIndex("titulairesMedicament"));
-                String statut_administratif = cursor.getString(cursor.getColumnIndex("Statut_administratif_de_IAMM"));
+                int codeCIS= cursor.getInt(cursor.getColumnIndexOrThrow("Code_CIS"));
+                String denominationMedicament = cursor.getString(cursor.getColumnIndexOrThrow("Denomination_du_medicament"));
+                String formePharmaceutique = cursor.getString(cursor.getColumnIndexOrThrow("Forme_pharmaceutique"));
+                String voies_administration = cursor.getString(cursor.getColumnIndexOrThrow("Voies_dadministration"));
+                String titulaire_medicament = cursor.getString(cursor.getColumnIndexOrThrow("Titulaires"));
+                String statut_administratif = cursor.getString(cursor.getColumnIndexOrThrow("Statut_administratif_de_lAMM"));
 
 
                 Medicament medicament = new Medicament();
@@ -191,7 +191,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
         return medicamentList;
-        }
+    }
 
     private String removeAccents(String input) {
         if (input == null) {

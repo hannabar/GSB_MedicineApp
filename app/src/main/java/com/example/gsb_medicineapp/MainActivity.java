@@ -9,6 +9,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +23,8 @@ import java.util.List;
     private Button btnSearch;
     private DatabaseHelper dbHelper;
     private Spinner spinnerVoieAdmin;
+
+    private ListView listViewMedicament;
 
      @Override
      protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +42,8 @@ import java.util.List;
          substance = findViewById(R.id.edit_text_substance);
          btnSearch=findViewById(R.id.btn_rechercher);
          spinnerVoieAdmin=findViewById(R.id.voieAdminSpinner);
-         dbHelper = new DatabaseHelper(this); //initialisation de databaseHelper
+         listViewMedicament=findViewById(R.id.listViewMedicament);
+         dbHelper = new DatabaseHelper(this);//initialisation de databaseHelper
          setupVoieAdminSpinner();
          btnSearch.setOnClickListener(new View.OnClickListener() {
              @Override
@@ -64,9 +68,12 @@ import java.util.List;
          String titulaires = titulaire.getText().toString().trim();
          String denomination_substance = substance.getText().toString().trim();
          String voie_admin = spinnerVoieAdmin.getSelectedItem().toString();
+
          List<Medicament> searchResults= dbHelper.searchMedicaments(denomination_du_medicament,forme_pharmaceutique,titulaires,denomination_substance,voie_admin);
-     // ici faire appel à la fonction search medicament en mettant en paramètres les saisies utilisateurs récupérées.
-          }
+         // ici faire appel à la fonction search medicament en mettant en paramètres les saisies utilisateurs récupérées.
+         MedicamentAdapter adapter=new MedicamentAdapter(this,searchResults);
+         listViewMedicament.setAdapter(adapter);
+     }
 
      private void cacherClavier() {
          // Obtenez le gestionnaire de fenêtre
