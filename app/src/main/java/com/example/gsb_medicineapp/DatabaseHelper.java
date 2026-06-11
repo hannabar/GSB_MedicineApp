@@ -206,4 +206,41 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return pattern.matcher(normalized).replaceAll("");
     }
 
+    public List<String>  getCompositionMedicament (int codeCIS){
+        List<String> compositionList= new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM CIS_COMPO_bdpm WHERE Code_CIS = ?",new String[]{String.valueOf(codeCIS)});
+        int i=0;
+        if (cursor.moveToFirst()){
+            do {
+                i++;
+                String dosage = cursor.getString(cursor.getColumnIndexOrThrow("Dosage_substance"));
+                String substance = cursor.getString(cursor.getColumnIndexOrThrow("Denomination_substance"));
+                compositionList.add(i+": "+substance+"("+ dosage +")");
+            }
+            while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return compositionList;
+    }
+
+    public List<String>  getPresentationMedicament (int codeCIS){
+        List<String> presentationList= new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT Libelle_presentation FROM CIS_CIP_bdpm WHERE Code_CIS = ?",new String[]{String.valueOf(codeCIS)});
+        int i=0;
+        if (cursor.moveToFirst()){
+            do {
+                i++;
+                String libellePresentation = cursor.getString(cursor.getColumnIndexOrThrow("Libelle_presentation"));
+                presentationList.add(i+": "+libellePresentation);
+            }
+            while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return presentationList;
+    }
+
 }

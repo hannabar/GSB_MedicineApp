@@ -1,11 +1,14 @@
  package com.example.gsb_medicineapp;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,11 +48,20 @@ import java.util.List;
          listViewMedicament=findViewById(R.id.listViewMedicament);
          dbHelper = new DatabaseHelper(this);//initialisation de databaseHelper
          setupVoieAdminSpinner();
+
          btnSearch.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
                  performSearch();
                  cacherClavier();
+             }
+         });
+
+         listViewMedicament.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+             @Override
+             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id){
+                 Medicament selectedMedicament= (Medicament) adapterView.getItemAtPosition(position);
+                 afficherCompositionMedicament(selectedMedicament);
              }
          });
 
@@ -108,5 +120,41 @@ import java.util.List;
          startActivity(authIntent);
          finish();
      }
+
+     private void afficherCompositionMedicament (Medicament medicament){
+        List<String> composition= dbHelper.getCompositionMedicament(medicament.getCodeCIS());
+        List<String> presentation=dbHelper.getPresentationMedicament(medicament.getCodeCIS());
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Composition et présentation de "+medicament.getDenomination());
+        StringBuilder boiteText= new StringBuilder();
+         if (composition.isEmpty()) {
+             boiteText.append("Pas de composition").append("\n");
+         } else {
+             boiteText.append("Composition : \n");
+             for (String item : composition) {
+                 boiteText.append(item).append("\n");
+             }
+
+             if (presentation.isEmpty()) {
+                 boiteText.append("Pas de presentation").append("\n");
+             } else {
+                 boiteText.append("Présentation : \n");
+                 for (String item : presentation) {
+                     boiteText.append(item).append("\n");
+                 }
+                 builder.setMessage(boiteText.toString());
+             }
+
+             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                 public void onClick(DialogInterface dialog, int which) {
+                     dialog.dismiss();
+                 }
+             });
+             AlertDialog dialog = builder.create();
+             dialog.show();
+         }
+     }
+
+
 
      }
